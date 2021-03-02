@@ -1,1 +1,2 @@
-# Borsa01
+# csharp-binance
+C# wrapper for Binance API

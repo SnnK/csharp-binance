@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using Newtonsoft.Json;
-using Trader.Service.Models;
+using Trader.BussinessProcess.Models;
 
 namespace Trader.API.Filters
 {

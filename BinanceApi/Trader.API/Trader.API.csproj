@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Trader.Service\Trader.Service.csproj" />
+    <ProjectReference Include="..\Trader.BussinessProcess\Trader.BussinessProcess.csproj" />
   </ItemGroup>
 
 </Project>

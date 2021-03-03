@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Trader.Service.Containers.MicrosoftIoC;
+using Trader.BussinessProcess.Containers.MicrosoftIoC;
 using FluentValidation.AspNetCore;
 using System.Text.Json.Serialization;
 

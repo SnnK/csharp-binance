@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trader.API", "Trader.API\Trader.API.csproj", "{B01CA638-2D67-4809-A2E4-B77A86077DD0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trader.Service", "Trader.Service\Trader.Service.csproj", "{4EF2A04B-D593-4CB7-AB75-151E5999E280}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trader.BussinessProcess", "Trader.BussinessProcess\Trader.BussinessProcess.csproj", "{4EF2A04B-D593-4CB7-AB75-151E5999E280}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trader.BinanceModels", "Trader.BinanceModels\Trader.BinanceModels.csproj", "{9A1FA4E3-4A1C-496D-BF39-2DF359EF38EB}"
 EndProject

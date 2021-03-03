@@ -1,9 +1,9 @@
 ﻿using Trader.API.Filters;
-using Trader.Service.Parameters;
-using Trader.Service.Interfaces;
+using Trader.BussinessProcess.Parameters;
+using Trader.BussinessProcess.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using Trader.Service.Models;
+using Trader.BussinessProcess.Models;
 
 namespace Trader.API.Controllers
 {

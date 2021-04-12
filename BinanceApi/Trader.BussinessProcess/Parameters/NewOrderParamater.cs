@@ -12,6 +12,5 @@ namespace Trader.BussinessProcess.Parameters
         public decimal Price { get; set; }
         public decimal StopPrice { get; set; }
         public decimal IcebergQty { get; set; }
-        public long Timestamp { get; set; }
     }
 }

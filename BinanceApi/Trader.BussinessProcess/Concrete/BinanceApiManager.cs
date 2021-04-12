@@ -29,7 +29,7 @@ namespace Trader.BussinessProcess.Concrete
         {
             var responseMessage = await _managerHelper.CallAsync(_httpClient, HttpMethod.Get, BinanceApiEndpoints.TradingPairs, null);
 
-            if(responseMessage.IsSuccessStatusCode)
+            if (responseMessage.IsSuccessStatusCode)
             {
                 ExchangeInfo message = JsonConvert.DeserializeObject<ExchangeInfo>(await responseMessage.Content.ReadAsStringAsync());
 
@@ -173,7 +173,7 @@ namespace Trader.BussinessProcess.Concrete
             if (orderParamater.IcebergQty > 0.0M)
                 Parameters.Add($"iceburgQty={_managerHelper.DecimalToString(orderParamater.IcebergQty)}");
 
-            var responseMessage = await _managerHelper.CallAsync(_httpClient, HttpMethod.Post, BinanceApiEndpoints.NewOrder, Parameters);
+            var responseMessage = await _managerHelper.CallAsync(_httpClient, HttpMethod.Post, BinanceApiEndpoints.NewOrder, Parameters, true);
 
             return responseMessage.IsSuccessStatusCode
                 ? JsonConvert.DeserializeObject<OrderResponse>(await responseMessage.Content.ReadAsStringAsync())
@@ -190,7 +190,7 @@ namespace Trader.BussinessProcess.Concrete
             if (!string.IsNullOrWhiteSpace(symbolParameter.Symbol))
                 Parameters.Add($"symbol={symbolParameter.Symbol}");
 
-            var responseMessage = await _managerHelper.CallAsync(_httpClient, HttpMethod.Get, BinanceApiEndpoints.OpenOrders, Parameters);
+            var responseMessage = await _managerHelper.CallAsync(_httpClient, HttpMethod.Get, BinanceApiEndpoints.OpenOrders, Parameters, true);
 
             return responseMessage.IsSuccessStatusCode
                 ? (dynamic)JsonConvert.DeserializeObject<List<OrderResponse>>(await responseMessage.Content.ReadAsStringAsync())
@@ -211,7 +211,7 @@ namespace Trader.BussinessProcess.Concrete
             if (!string.IsNullOrWhiteSpace(cancelOrderParameter.OrigClientOrderId))
                 Parameters.Add($"origClientOrderId={cancelOrderParameter.OrigClientOrderId}");
 
-            var responseMessage = await _managerHelper.CallAsync(_httpClient, HttpMethod.Delete, BinanceApiEndpoints.CancelOrder, Parameters);
+            var responseMessage = await _managerHelper.CallAsync(_httpClient, HttpMethod.Delete, BinanceApiEndpoints.CancelOrder, Parameters, true);
 
             return responseMessage.IsSuccessStatusCode
                 ? JsonConvert.DeserializeObject<OrderResponse>(await responseMessage.Content.ReadAsStringAsync())
@@ -228,7 +228,7 @@ namespace Trader.BussinessProcess.Concrete
             if (!string.IsNullOrWhiteSpace(myTradesParameter.Symbol))
                 Parameters.Add($"symbol={myTradesParameter.Symbol}");
 
-            var responseMessage = await _managerHelper.CallAsync(_httpClient, HttpMethod.Get, BinanceApiEndpoints.MyTrades, Parameters);
+            var responseMessage = await _managerHelper.CallAsync(_httpClient, HttpMethod.Get, BinanceApiEndpoints.MyTrades, Parameters, true);
 
             return responseMessage.IsSuccessStatusCode
                 ? (dynamic)JsonConvert.DeserializeObject<List<OrderResponse>>(await responseMessage.Content.ReadAsStringAsync())
@@ -245,7 +245,7 @@ namespace Trader.BussinessProcess.Concrete
             if (!string.IsNullOrWhiteSpace(ordersParameter.Symbol))
                 Parameters.Add($"symbol={ordersParameter.Symbol}");
 
-            var responseMessage = await _managerHelper.CallAsync(_httpClient, HttpMethod.Get, BinanceApiEndpoints.AllOrders, Parameters);
+            var responseMessage = await _managerHelper.CallAsync(_httpClient, HttpMethod.Get, BinanceApiEndpoints.AllOrders, Parameters, true);
 
             return responseMessage.IsSuccessStatusCode
                 ? (dynamic)JsonConvert.DeserializeObject<List<OrderResponse>>(await responseMessage.Content.ReadAsStringAsync())

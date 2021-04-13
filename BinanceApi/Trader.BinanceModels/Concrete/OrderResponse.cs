@@ -12,6 +12,9 @@ namespace Trader.BinanceModels.Concrete
         [JsonProperty("orderId")]
         public long OrderId { get; set; }
 
+        [JsonProperty("orderListId")]
+        public long OrderListId { get; set; }
+
         [JsonProperty("clientOrderId")]
         public string ClientOrderId { get; set; }
 
@@ -19,13 +22,16 @@ namespace Trader.BinanceModels.Concrete
         public long TransactTime { get; set; }
 
         [JsonProperty("price")]
-        public decimal Price { get; set; }
+        public string Price { get; set; }
 
         [JsonProperty("origQty")]
-        public decimal OrigQty { get; set; }
+        public string OrigQty { get; set; }
 
         [JsonProperty("executedQty")]
-        public decimal ExecutedQty { get; set; }
+        public string ExecutedQty { get; set; }
+
+        [JsonProperty("cummulativeQuoteQty")]
+        public string CummulativeQuoteQty { get; set; }
 
         [JsonProperty("status")]
         public OrderStatus Status { get; set; }
@@ -38,5 +44,8 @@ namespace Trader.BinanceModels.Concrete
 
         [JsonProperty("side")]
         public Side Side { get; set; }
+
+        [JsonProperty("fills")]
+        public object[] Fills { get; set; }
     }
 }

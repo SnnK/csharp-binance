@@ -153,7 +153,8 @@ namespace Trader.BussinessProcess.Concrete
             {
                 $"symbol={orderParamater.Symbol}",
                 $"side={orderParamater.Side}",
-                $"type={orderParamater.Type}"
+                $"type={orderParamater.Type}",
+                $"newClientOrderId={Guid.NewGuid():N}"
             };
 
             OrderType orderType = (OrderType)Enum.Parse(typeof(OrderType), orderParamater.Type);

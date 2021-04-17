@@ -1,23 +1,20 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Trader.BinanceModels.Concrete;
-using Trader.BussinessProcess.Interfaces;
 using Trader.BussinessProcess.Models;
 using Trader.BussinessProcess.StringInfos;
 
-namespace Trader.BussinessProcess.Helper
+namespace Trader.BussinessProcess.Base
 {
-    public class ManagerHelper : IManagerHelper
+    public class BaseManager
     {
-        public string DecimalToString(decimal decimalValue)
-        {
-            return decimalValue.ToString().Replace(",", ".");
-        }
+        public static readonly CultureInfo culture = new("en-US", false);
 
         public ErrorModel GetError(string errValue)
         {

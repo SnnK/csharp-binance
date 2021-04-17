@@ -4,7 +4,7 @@ using Trader.BussinessProcess.Interfaces;
 using Trader.BussinessProcess.Parameters;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using Trader.BussinessProcess.Helper;
+using Trader.BussinessProcess.Base;
 
 namespace Trader.BussinessProcess.Containers.MicrosoftIoC
 {
@@ -13,7 +13,6 @@ namespace Trader.BussinessProcess.Containers.MicrosoftIoC
         public static void AddDependencies(this IServiceCollection services)
         {
             services.AddHttpClient<IBinanceApiService, BinanceApiManager>();
-            services.AddScoped<IManagerHelper, ManagerHelper>();
 
             #region fluentvalidation
             services.AddTransient<IValidator<LatestTradesParameter>, LatestTradesParameterValidator>();

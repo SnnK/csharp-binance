@@ -30,20 +30,19 @@ namespace Trader.BussinessProcess.Concrete
         {
             var responseMessage = await CallAsync(_httpClient, HttpMethod.Get, BinanceApiEndpoints.TradingPairs, null);
 
-            if (responseMessage.IsSuccessStatusCode)
-            {
-                ExchangeInfo message = JsonConvert.DeserializeObject<ExchangeInfo>(await responseMessage.Content.ReadAsStringAsync());
+            if (!responseMessage.IsSuccessStatusCode)
+                return GetError(await responseMessage.Content.ReadAsStringAsync());
 
-                if (exchangeInfoParameter.Base != null)
-                    message.Symbols = message.Symbols.Where(f => f.BaseAsset == exchangeInfoParameter.Base).ToList();
+            var message = JsonConvert.DeserializeObject<ExchangeInfo>(await responseMessage.Content.ReadAsStringAsync());
 
-                if (exchangeInfoParameter.Quote != null)
-                    message.Symbols = message.Symbols.Where(f => f.QuoteAsset == exchangeInfoParameter.Quote).ToList();
+            if (exchangeInfoParameter.Base != null)
+                message.Symbols = message.Symbols.Where(f => f.BaseAsset == exchangeInfoParameter.Base).ToList();
 
-                return message;
-            }
+            if (exchangeInfoParameter.Quote != null)
+                message.Symbols = message.Symbols.Where(f => f.QuoteAsset == exchangeInfoParameter.Quote).ToList();
 
-            return GetError(await responseMessage.Content.ReadAsStringAsync());
+            return message;
+
         }
 
         public async Task<dynamic> Hr24Prices()
@@ -78,27 +77,26 @@ namespace Trader.BussinessProcess.Concrete
 
             var responseMessage = await CallAsync(_httpClient, HttpMethod.Get, BinanceApiEndpoints.OrderBook, Parameters);
 
-            if (responseMessage.IsSuccessStatusCode)
+            if (!responseMessage.IsSuccessStatusCode)
+                return GetError(await responseMessage.Content.ReadAsStringAsync());
+
+            var orderBook = JsonConvert.DeserializeObject<OrderBook>(await responseMessage.Content.ReadAsStringAsync());
+
+            foreach (var order in orderBook.Asks)
             {
-                var orderBook = JsonConvert.DeserializeObject<OrderBook>(await responseMessage.Content.ReadAsStringAsync());
-
-                foreach (var order in orderBook.Asks)
-                {
-                    order.Total = Decimal.Multiply(order.Price, order.Quantity);
-                }
-
-                foreach (var order in orderBook.Bids)
-                {
-                    order.Total = Decimal.Multiply(order.Price, order.Quantity);
-                }
-
-                orderBook.TotalAsks = orderBook.Asks.Sum(s => s.Total);
-                orderBook.TotalBids = orderBook.Bids.Sum(s => s.Total);
-
-                return orderBook;
+                order.Total = decimal.Multiply(order.Price, order.Quantity);
             }
 
-            return GetError(await responseMessage.Content.ReadAsStringAsync());
+            foreach (var order in orderBook.Bids)
+            {
+                order.Total = decimal.Multiply(order.Price, order.Quantity);
+            }
+
+            orderBook.TotalAsks = orderBook.Asks.Sum(s => s.Total);
+            orderBook.TotalBids = orderBook.Bids.Sum(s => s.Total);
+
+            return orderBook;
+
         }
 
         public async Task<dynamic> LatestTrades(LatestTradesParameter latestTradesParameter)
@@ -111,22 +109,21 @@ namespace Trader.BussinessProcess.Concrete
 
             var responseMessage = await CallAsync(_httpClient, HttpMethod.Get, BinanceApiEndpoints.LatestTrades, Parameters);
 
-            if (responseMessage.IsSuccessStatusCode)
+            if (!responseMessage.IsSuccessStatusCode)
+                return GetError(await responseMessage.Content.ReadAsStringAsync());
+
+            var latestTrades = JsonConvert.DeserializeObject<List<LatestTrades>>(await responseMessage.Content.ReadAsStringAsync());
+
+            var latestTradesWrapper = new LatestTradesWrapper
             {
-                var latestTrades = JsonConvert.DeserializeObject<List<LatestTrades>>(await responseMessage.Content.ReadAsStringAsync());
+                LatestTrades = latestTrades,
+                Total_both = latestTrades.Sum(s => s.QuoteQty),
+                Total_BuyerMakerFalse = latestTrades.Where(f => !f.IsBuyerMaker).Sum(s => s.QuoteQty),
+                Total_BuyerMakerTrue = latestTrades.Where(f => f.IsBuyerMaker).Sum(s => s.QuoteQty) // alış emirleri uygulanıyor. fiyat aşağı çekiliyor (muhtemel). EN/The buyer made the order. The seller fulfilled it.
+            };
 
-                var latestTradesWrapper = new LatestTradesWrapper
-                {
-                    LatestTrades = latestTrades,
-                    Total_both = latestTrades.Sum(s => s.QuoteQty),
-                    Total_BuyerMakerFalse = latestTrades.Where(f => !f.IsBuyerMaker).Sum(s => s.QuoteQty),
-                    Total_BuyerMakerTrue = latestTrades.Where(f => f.IsBuyerMaker).Sum(s => s.QuoteQty) // alış emirleri uygulanıyor. fiyat aşağı çekiliyor (muhtemel). EN/The buyer made the order. The seller fulfilled it.
-                };
+            return latestTradesWrapper;
 
-                return latestTradesWrapper;
-            }
-
-            return GetError(await responseMessage.Content.ReadAsStringAsync());
         }
 
         public async Task<dynamic> Candlesticks(CandlesticksParameter candlesticksParameter)

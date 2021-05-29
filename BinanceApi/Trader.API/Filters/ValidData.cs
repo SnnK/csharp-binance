@@ -12,25 +12,21 @@ namespace Trader.API.Filters
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            var dictionary = context.ActionArguments.FirstOrDefault().Value;
-            string jsonError = string.Empty;
             var errorMessages = new ErrorModel();
 
-            if (!context.ModelState.IsValid)
+            if (context.ModelState.IsValid) return;
+
+            var modelStateValues = context.ModelState.Values;
+
+            foreach (string error in modelStateValues.SelectMany(o => o.Errors.Select(o => o.ErrorMessage)))
             {
-                var modelStateValues = context.ModelState.Values;
-
-                foreach (string error in modelStateValues.SelectMany(o => o.Errors.Select(o => o.ErrorMessage)))
-                {
-                    errorMessages.Errors.Add(error);
-                }
-
-                if (errorMessages.Errors.Any())
-                {
-                    jsonError = JsonConvert.SerializeObject(errorMessages);
-                    context.Result = new BadRequestObjectResult(jsonError);
-                }
+                errorMessages.Errors.Add(error);
             }
+
+            if (!errorMessages.Errors.Any()) return;
+
+            var jsonError = JsonConvert.SerializeObject(errorMessages);
+            context.Result = new BadRequestObjectResult(jsonError);
         }
     }
 }

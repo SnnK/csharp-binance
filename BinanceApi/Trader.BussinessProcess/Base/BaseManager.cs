@@ -28,8 +28,8 @@ namespace Trader.BussinessProcess.Base
         public async Task<HttpResponseMessage> CallAsync(HttpClient httpClient, HttpMethod method,
             string endpoint, List<string> parameters, bool secure = false)
         {
-            string qsValues, hash;
-            qsValues = hash = string.Empty;
+            string hash;
+            var qsValues = hash = string.Empty;
 
             if (secure)
             {

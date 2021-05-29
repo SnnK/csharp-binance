@@ -7,7 +7,7 @@ using Trader.BussinessProcess.Models;
 
 namespace Trader.API.Controllers
 {
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/[controller]/[action]")]
     [ApiController]
     [ValidData]
     public class TraderController : ControllerBase
@@ -19,67 +19,67 @@ namespace Trader.API.Controllers
             _binanceApiService = binanceApiService;
         }
 
-        [HttpGet("[action]")]
+        [HttpGet]
         public async Task<IActionResult> GetTradingPairs([FromQuery] ExchangeInfoParameter exchangeInfoParameter)
         {
             return Result(await _binanceApiService.TradingPairs(exchangeInfoParameter));
         }
 
-        [HttpGet("[action]")]
+        [HttpGet]
         public async Task<IActionResult> Get24hrPrices()
         {
             return Result(await _binanceApiService.Hr24Prices());
         }
 
-        [HttpGet("[action]")]
+        [HttpGet]
         public async Task<IActionResult> GetPriceTicker([FromQuery] SymbolParameter symbolParameter)
         {
             return Result(await _binanceApiService.PriceTicker(symbolParameter));
         }
 
-        [HttpGet("[action]")]
+        [HttpGet]
         public async Task<IActionResult> GetCandlesticks([FromQuery] CandlesticksParameter candlesticksParameter)
         {
             return Result(await _binanceApiService.Candlesticks(candlesticksParameter));
         }
 
-        [HttpGet("[action]")]
+        [HttpGet]
         public async Task<IActionResult> GetOrderBook([FromQuery] OrderBookParameter orderBookQuery)
         {
             return Result(await _binanceApiService.OrderBook(orderBookQuery));
         }
 
-        [HttpGet("[action]")]
+        [HttpGet]
         public async Task<IActionResult> GetLatestTrades([FromQuery] LatestTradesParameter orderBookQuery)
         {
             return Result(await _binanceApiService.LatestTrades(orderBookQuery));
         }
 
-        [HttpGet("[action]")]
+        [HttpGet]
         public async Task<IActionResult> GetOpenOrders([FromQuery] SymbolParameter symbolParameter)
         {
             return Result(await _binanceApiService.OpenOrders(symbolParameter));
         }
 
-        [HttpGet("[action]")]
+        [HttpGet]
         public async Task<IActionResult> GetMyTrades([FromQuery] MyTradesParameter myTradesParameter)
         {
             return Result(await _binanceApiService.MyTrades(myTradesParameter));
         }
 
-        [HttpGet("[action]")]
+        [HttpGet]
         public async Task<IActionResult> GetAllOrders([FromQuery] AllOrdersParameter allOrdersParameter)
         {
             return Result(await _binanceApiService.AllOrders(allOrdersParameter));
         }
 
-        [HttpPost("[action]")]
+        [HttpPost]
         public async Task<IActionResult> NewOrder([FromBody] NewOrderParamater orderParamater)
         {
             return Result(await _binanceApiService.NewOrder(orderParamater));
         }
 
-        [HttpDelete("[action]")]
+        [HttpDelete]
         public async Task<IActionResult> CancelOrder([FromBody] CancelOrderParameter cancelOrderParameter)
         {
             return Result(await _binanceApiService.CancelOrder(cancelOrderParameter));
